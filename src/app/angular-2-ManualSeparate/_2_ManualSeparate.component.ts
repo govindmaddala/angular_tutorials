@@ -5,6 +5,6 @@ import { Component } from "@angular/core";
     templateUrl: "./_2_ManualSeparate.component.html",
     styleUrls: ["./_2_ManualSeparate.component.css"]
 })
-export default class _2_ManualSeparate{
+export class _2_ManualSeparate{
 
 }

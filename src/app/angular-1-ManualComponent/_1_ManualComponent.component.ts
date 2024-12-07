@@ -5,6 +5,6 @@ import { Component } from "@angular/core";
     template: "<h2>_1_ManualComponent Template</h2>",
     styles: ['h2{color: red}']
 })
-export default class _1_ManualComponent{
+export class _1_ManualComponent{
 
 }
