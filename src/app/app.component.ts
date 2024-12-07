@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import _1_ManualComponent from './angular_1_ManualComponent/_1_ManualComponent.component';
 import _2_ManualSeparate from './angular_2_ManualSeparate/_2_ManualSeparate.component';
 import { Angular3GCComponent } from './angular-3-gc/angular-3-gc.component';
+import { Angular4DataBindingComponent } from './angular-4-data-binding/angular-4-data-binding.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, _1_ManualComponent, _2_ManualSeparate, Angular3GCComponent],
+  imports: [RouterOutlet, _1_ManualComponent, _2_ManualSeparate, Angular3GCComponent, Angular4DataBindingComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

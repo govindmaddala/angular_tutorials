@@ -85,3 +85,10 @@ export class Angular3GCComponent {}
 - In **app.component.ts**: add **Angular3GCComponent** in imports array.
 ```imports: [RouterOutlet, FeaturesComponentComponent],```
 - In **app.component.html**: add **<app-angular-3-gc></<app-angular-3-gc>** in desired place.
+
+#### Angular Data binding:
+- **{{}}** is used for string interpolation.
+- Let's say there is an variable is there in component page. Here it is in **angular-4-data-binding-component.ts**:
+    - ``` varFromComponent: string = "Variable from Angular4DataBindingComponent" ```
+    - Now in **angular-4-data-binding-component.html**, I can access this by 
+    - ```<h3>{{varFromComponent}}</h3>``` and in UI it gives **Variable from Angular4DataBindingComponent** value.
