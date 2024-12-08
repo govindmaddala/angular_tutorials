@@ -96,10 +96,9 @@ export class Angular3GCComponent {}
 
 #### Props Passing:
 - Props passing from parent to child and vice-versa is bit easy when compared to react.
-##### From Parent to Child component:
-- From parent to child, we can pass by using **@Input()** decorator.
-- Code part:
-    - In Parent Level:
+- ##### From Parent to Child component:
+    - From parent to child, we can pass props by using **@Input()** decorator.
+    - Code part in Parent Level:
         - In **angular-5-p2c-ds-parent.component.ts**:
             ```
             import { Component } from '@angular/core';
@@ -125,7 +124,7 @@ export class Angular3GCComponent {}
             ```
             - child template **app-angular-5-p2c-ds-child** is used and fromParent is passed to the child template and msgFromP2C variable is assigned.
             - PS: **fromParent** same word has to be used in child component to access the variable passed from parent to child.
-    - In Child Level:
+    - Code part in Child Level:
         - In **angular-5-p2c-ds-child.component.ts**:
             ```
             import { Component, Input } from '@angular/core';
@@ -144,3 +143,68 @@ export class Angular3GCComponent {}
         - In **angular-5-p2c-ds-child.component.html**:
             ```<h3>{{fromParent}}</h3>```
     - In app.component.ts: import parent component and in app.component.html use parent template as per the requirement.
+
+- ##### From Child to parent component:
+    - From child to parent, we can pass props by 2 ways:
+        - **@ViewChild** decorator
+        - **@Output** decorator and **event emitter**
+    - **@ViewChild** decorator:
+        - Here we declare variables in child component and now in parent component we have to use @ViewChild decorator which helps in monitoring the child. 
+        - Also here we have to use **ngAfterViewInit** life-cycle method by implementing **AfterViewInit** class.
+        - Child component code: 
+        - **/src/app/angular-6-c2p-ds-child-viewchild/angular-6-c2p-ds-child-viewchild.component.ts**
+            ```
+            import { Component } from '@angular/core';
+            @Component({
+                selector: 'app-angular-6-c2p-ds-child-viewchild',
+                imports: [],
+                templateUrl: './angular-6-c2p-ds-child-viewchild.component.html',
+                styleUrl: './angular-6-c2p-ds-child-viewchild.component.css'
+            })
+            export class Angular6C2pDsChildViewchildComponent {
+                age: number = 28;
+                name: string = "govind";
+            }
+            ```
+            - Here age and name variables are there and these will be used in parent component.
+        - Parent level code: 
+        - **/src/app/angular-6-c2p-ds-parent-viewchild/angular-6-c2p-ds-parent-viewchild.component.ts**
+            ```
+            import { AfterViewInit, Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+            import { Angular6C2pDsChildViewchildComponent } from '../angular-6-c2p-ds-child-viewchild/angular-6-c2p-ds-child-viewchild.component';
+
+            @Component({
+                selector: 'app-angular-6-c2p-ds-parent-viewchild',
+                templateUrl: './angular-6-c2p-ds-parent-viewchild.component.html',
+                styleUrls: ['./angular-6-c2p-ds-parent-viewchild.component.css'],
+                imports: [Angular6C2pDsChildViewchildComponent]
+            })
+            export class Angular6C2pDsParentViewchildComponent implements AfterViewInit {
+                @ViewChild(Angular6C2pDsChildViewchildComponent, { static: false }) child: any;
+                childName: string | undefined;
+                childAge: number | undefined;
+
+                constructor(private cdr: ChangeDetectorRef) {}
+
+                ngAfterViewInit() {
+                    if (this.child) {
+                    this.childAge = this.child.age;
+                    this.childName = this.child.name;
+                    this.cdr.detectChanges(); // Notify Angular to re-run change detection
+                    }
+                }
+            }
+            ```
+            - previously **ChangeDetectorRef** is not needed to use but now it is being used to avoid errors on the console only.
+        - **/src/app/angular-6-c2p-ds-parent-viewchild/angular-6-c2p-ds-parent-viewchild.component.html**
+            ```
+            <p>angular-6-c2p-ds-parent-viewchild works!</p>
+            <app-angular-6-c2p-ds-child-viewchild></app-angular-6-c2p-ds-child-viewchild>
+            <div>
+                <h2>Details</h2>
+                <h3>Name: {{childName}}</h3>
+                <h3>Age: {{childAge}}</h3>
+            </div>
+            ```
+            - PS: Here child selector should also be called, else entire props passing won't get triggered.
+            
