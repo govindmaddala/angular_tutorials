@@ -208,3 +208,56 @@ export class Angular3GCComponent {}
             ```
             - PS: Here child selector should also be called, else entire props passing won't get triggered.
             
+    - **@Output** decorator and **event emitter**:
+        - Here in child component we declare a variable and event emitter which gets triggered on some event like button click and transfer the message to the parent.
+        - In parent html, in child template we use same event emitter name which pass the props and it will be used to update a variable in parent.
+        - Child level code change:
+        - **src/app/angular-7-c2p-ds-child-output/angular-7-c2p-ds-child-output.component.ts**
+            ```
+            import { Component, EventEmitter, Output } from '@angular/core';
+            @Component({
+                selector: 'app-angular-7-c2p-ds-child-output',
+                imports: [],
+                templateUrl: './angular-7-c2p-ds-child-output.component.html',
+                styleUrl: './angular-7-c2p-ds-child-output.component.css'
+            })
+            export class Angular7C2pDsChildOutputComponent {
+                childMsgForOutput: string = "Message from child to parent using output topic"
+                @Output() msgEvent = new EventEmitter<string>();
+
+                sendMsgFromC2POnClickEvent = ()=>{
+                    this.msgEvent.emit(this.childMsgForOutput);
+                }
+            }
+            ```
+            - same name **msgEvent** has to be used in parent html's child template also.
+        - **src/app/angular-7-c2p-ds-child-output/angular-7-c2p-ds-child-output.component.html**
+            ```
+            <p>angular-7-c2p-ds-child-output works!</p>
+            <button (click)="sendMsgFromC2POnClickEvent()" >Send Props from Child to Parent</button>
+            ```
+        - Parent level code change:
+        - **src/app/angular-7-c2p-ds-parent-output/angular-7-c2p-ds-parent-output.component.ts**
+            ```
+            import { Component } from '@angular/core';
+            import { Angular7C2pDsChildOutputComponent } from '../angular-7-c2p-ds-child-output/angular-7-c2p-ds-child-output.component';
+            @Component({
+                selector: 'app-angular-7-c2p-ds-parent-output',
+                imports: [Angular7C2pDsChildOutputComponent],
+                templateUrl: './angular-7-c2p-ds-parent-output.component.html',
+                styleUrl: './angular-7-c2p-ds-parent-output.component.css'
+            })
+            export class Angular7C2pDsParentOutputComponent {
+                msgFromChild2Parent: string | undefined;
+                getMsgOnEvent = ($event: any)=>{
+                    this.msgFromChild2Parent = $event;
+                }
+            }
+            ```
+        - **src/app/angular-7-c2p-ds-parent-output/angular-7-c2p-ds-parent-output.component.html**
+            ```
+            <p>angular-7-c2p-ds-parent-output works!</p>
+            <app-angular-7-c2p-ds-child-output (msgEvent)="getMsgOnEvent($event)" ></app-angular-7-c2p-ds-child-output>
+            <p>Message from child to parent: {{msgFromChild2Parent || "Not received yet"}}</p>
+            ```
+            - **msgEvent** same variable used for event emitter in child component has to be used in parent selector's child selector.
