@@ -261,3 +261,47 @@ export class Angular3GCComponent {}
             <p>Message from child to parent: {{msgFromChild2Parent || "Not received yet"}}</p>
             ```
             - **msgEvent** same variable used for event emitter in child component has to be used in parent selector's child selector.
+
+
+#### get method:
+- In angular, using get keyword we can create a method which has to return something which can be used in html.
+- Code:
+    **src/app/angular-8-get/angular-8-get.component.html**
+    ```
+    <p>angular-8-get works!</p>
+    <button (click)="userDetails" >Update User details</button>
+    <div>
+        <h3>user Details</h3>
+        <h4>Name: {{details.name || "NA"}}</h4>
+        <h4>Age: {{details.age || "NA"}}</h4>
+    </div>
+    ```
+    - Here userDetails is a get method which will be called on event[button click] and it update **details** object.
+    **src/app/angular-8-get/angular-8-get.component.ts**
+    ```
+    import { Component } from '@angular/core';
+
+    interface user {
+        name: string,
+        age: number
+    }
+
+    @Component({
+        selector: 'app-angular-8-get',
+        imports: [],
+        templateUrl: './angular-8-get.component.html',
+        styleUrl: './angular-8-get.component.css'
+    })
+    export class Angular8GetComponent {
+        details: user = {
+            name: '',
+            age: 0
+        };
+        get userDetails(){
+            this.details.age = 29;
+            this.details.name = "govind"
+            return this.details;
+        }
+    }
+    ```
+    - previously **details** has empty values but **get userDetails** updates and returns the details object and it will be updated in the html further.
